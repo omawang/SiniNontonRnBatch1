@@ -1,4 +1,5 @@
 import uiStyle from './uiStyle';
 import uiColor from './uiColor';
+import uiDimen from './uiDimen';
 
-export {uiStyle, uiColor};
+export {uiStyle, uiColor, uiDimen};
