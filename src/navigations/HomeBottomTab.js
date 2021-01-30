@@ -1,12 +1,18 @@
 import React from 'react';
+import {View, Text, TouchableOpacity} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import HomeScreen from '../ui/screens/main/HomeScreen';
-import MovieDetailScreen from '../ui/screens/main/global/MovieDetailScreen';
+import IconMC from 'react-native-vector-icons/MaterialCommunityIcons';
+import IconM from 'react-native-vector-icons/MaterialIcons';
+
+import {uiColor, uiDimen, uiStyle} from '../ui/constants';
+import {Space} from '../ui/components';
+
+import MoviesScreen from '../ui/screens/main/Home/MoviesScreen';
+import TvShowsScreen from '../ui/screens/main/Home/TvShowsScreen';
+import FavouritesScreen from '../ui/screens/main/Home/FavouritesScreen';
+import AccountScreen from '../ui/screens/main/Home/AccountScreen';
 
 const Tab = createBottomTabNavigator();
-
-import {View, Text, TouchableOpacity} from 'react-native';
-import {uiColor, uiDimen, uiStyle} from '../ui/constants';
 
 const MyTabBar = ({state, descriptors, navigation}) => {
   const focusedOptions = descriptors[state.routes[state.index].key].options;
@@ -15,7 +21,24 @@ const MyTabBar = ({state, descriptors, navigation}) => {
     return null;
   }
 
-  const routeNames = ['Movies', 'Tv Shows', 'Favourites', 'Account']
+  const routeNames = [
+    {
+      title: 'Movies',
+      icon: <IconMC name="filmstrip" color="white" size={24} />,
+    },
+    {
+      title: 'Tv Shows',
+      icon: <IconM name="tv" color="white" size={24} />,
+    },
+    {
+      title: 'Favourites',
+      icon: <IconMC name="filmstrip" color="white" size={24} />,
+    },
+    {
+      title: 'Account',
+      icon: <IconMC name="filmstrip" color="white" size={24} />,
+    },
+  ];
 
   return (
     <View
@@ -69,13 +92,15 @@ const MyTabBar = ({state, descriptors, navigation}) => {
               flex: 1,
               alignItems: 'center',
             }}>
+            {routeNames[index].icon}
+            <Space height={uiDimen.sm} />
             <Text
               style={{
                 ...uiStyle.textSemiBold,
                 fontSize: 12,
                 color: isFocused ? uiColor.primary : 'white',
               }}>
-              {routeNames[index]}
+              {routeNames[index].title}
             </Text>
           </TouchableOpacity>
         );
@@ -87,10 +112,10 @@ const MyTabBar = ({state, descriptors, navigation}) => {
 const HomeBottomTab = () => {
   return (
     <Tab.Navigator tabBar={(props) => <MyTabBar {...props} />}>
-      <Tab.Screen name="Movies" component={HomeScreen} />
-      <Tab.Screen name="TvShows" component={MovieDetailScreen} />
-      <Tab.Screen name="Favourites" component={HomeScreen} />
-      <Tab.Screen name="Account" component={HomeScreen} />
+      <Tab.Screen name="Movies" component={MoviesScreen} />
+      <Tab.Screen name="TvShows" component={TvShowsScreen} />
+      <Tab.Screen name="Favourites" component={FavouritesScreen} />
+      <Tab.Screen name="Account" component={AccountScreen} />
     </Tab.Navigator>
   );
 };
