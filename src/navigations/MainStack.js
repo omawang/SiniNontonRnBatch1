@@ -1,16 +1,16 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 
-import HomeBottomTab from './HomeBottomTab';
-import MovieDetailScreen from '../ui/screens/main/global/MovieDetailScreen';
+import MovieDetailScreen from '../ui/screens/main/global/MovieDetailScreen'
+import BottomTab from './BottomTab';
 
 const Stack = createStackNavigator();
 
 const MainStack = () => {
   return (
     <Stack.Navigator headerMode="none">
-      <Stack.Screen name="Home" component={HomeBottomTab} />
-      <Stack.Screen name="DetailMovie" component={MovieDetailScreen} />
+      <Stack.Screen name="Home" component={BottomTab} />
+      <Stack.Screen name="MovieDetail" component={MovieDetailScreen} />
     </Stack.Navigator>
   );
 };
