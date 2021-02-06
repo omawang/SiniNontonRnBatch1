@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {
   Image,
   SafeAreaView,
@@ -8,13 +8,17 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import IconM from 'react-native-vector-icons/MaterialIcons';
+import auth from '@react-native-firebase/auth';
 
 import {Input, Space} from '../../../../components';
-import {uiDimen, uiStyle} from '../../../../constants';
+import {uiColor, uiDimen, uiStyle} from '../../../../constants';
 import PopularSection from './components/PopularSection';
 import TopRatedSection from './components/TopRatedSection';
+import {UserContext} from '../../../../../commons/contexts/user';
 
 const MoviesScreen = () => {
+  const {user} = useContext(UserContext);
   return (
     <SafeAreaView style={uiStyle.baseContainer}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -32,6 +36,9 @@ const MoviesScreen = () => {
           <Input
             fullCircle
             placeholder="Search ..."
+            placeholderLefIcon={
+              <IconM name="search" color={uiColor.placeholder} size={16} />
+            }
             value=""
             onChange={() => {}}
           />

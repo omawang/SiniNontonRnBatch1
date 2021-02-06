@@ -1,17 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {StyleSheet, TextInput, View} from 'react-native';
-import IconM from 'react-native-vector-icons/MaterialIcons';
 
 import {uiColor, uiDimen, uiStyle} from '../constants';
 import {Space} from '.';
 
-const Input = ({value, onChange, fullCircle = false, placeholder}) => {
+const Input = ({
+  value,
+  onChange,
+  fullCircle = false,
+  secure = false,
+  placeholder,
+  placeholderLefIcon,
+}) => {
   return (
     <View style={styles.container({fullCircle})}>
-      <IconM name="search" color={uiColor.placeholder} size={16} />
+      {placeholderLefIcon}
       <Space width={uiDimen.sm / 2} />
       <TextInput
+        secureTextEntry={secure}
         placeholder={placeholder}
         placeholderTextColor={uiColor.placeholder}
         value={value}
@@ -44,7 +51,9 @@ const styles = StyleSheet.create({
 Input.propTypes = {
   value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
+  secure: PropTypes.bool,
   fullCircle: PropTypes.bool,
   placeholder: PropTypes.string,
+  placeholderLefIcon: PropTypes.object,
 };
 export default Input;
