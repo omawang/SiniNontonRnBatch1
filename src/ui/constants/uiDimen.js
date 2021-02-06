@@ -1,4 +1,5 @@
 const defaultPadding = 8;
+
 const uiDimen = {
   sm: defaultPadding,
   md: defaultPadding * 2,

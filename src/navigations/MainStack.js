@@ -21,7 +21,7 @@ function MyTabs() {
 
 const MainStack = () => {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator headerMode="none">
       <Stack.Screen name="Home" component={MyTabs} />
     </Stack.Navigator>
   );

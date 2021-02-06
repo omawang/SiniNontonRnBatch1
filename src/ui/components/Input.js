@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {StyleSheet, TextInput, View} from 'react-native';
-// import IconM from 'react-native-vector-icons/MaterialIcons';
 
 import {uiColor, uiDimen, uiStyle} from '../constants';
 import {Space} from '.';
@@ -11,11 +10,11 @@ const Input = ({
   onChange,
   fullCircle = false,
   placeholder,
-  textBackground,
+  placeholderLeftIcon,
 }) => {
   return (
     <View style={styles.container({fullCircle})}>
-      {/* <IconM name="search" color={uiColor.placeholder} size={16} /> */}
+      {placeholderLeftIcon}
       <Space width={uiDimen.sm / 2} />
       <TextInput
         placeholder={placeholder}
@@ -52,6 +51,6 @@ Input.propTypes = {
   onChange: PropTypes.func.isRequired,
   fullCircle: PropTypes.bool,
   placeholder: PropTypes.string,
-  textBackground: PropTypes.string,
+  placeholderLeftIcon: PropTypes.object,
 };
 export default Input;
