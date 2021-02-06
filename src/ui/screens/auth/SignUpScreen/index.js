@@ -6,10 +6,6 @@ import {Button, Input, Space} from '../../../components';
 import {uiDimen, uiStyle} from '../../../constants';
 
 const SignUpScreen = ({navigation}) => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
   return (
     <SafeAreaView style={uiStyle.baseContainer}>
       <View style={styles.container}>
@@ -22,22 +18,22 @@ const SignUpScreen = ({navigation}) => {
           </View>
           <Space height={uiDimen.sm * 5} />
 
-          <Text style={styles.subtitle}>Sign up now</Text>
+          <Text style={styles.subtitle}>Sign up to your account</Text>
           <Space height={uiDimen.lg} />
 
           <Text style={styles.label}>Name</Text>
           <Space height={uiDimen.sm} />
-          <Input value={name} onChange={(v) => setName(v)} />
+          <Input placeholder="Name" value={''} onChange={() => {}} />
           <Space height={uiDimen.lg} />
 
           <Text style={styles.label}>Email</Text>
           <Space height={uiDimen.sm} />
-          <Input value={email} onChange={(v) => setEmail(v)} />
+          <Input placeholder="Email" value={''} onChange={() => {}} />
           <Space height={uiDimen.lg} />
 
           <Text style={styles.label}>Password</Text>
           <Space height={uiDimen.sm} />
-          <Input value={password} onChange={(v) => setPassword(v)} />
+          <Input placeholder="Password" value={''} onChange={() => {}} />
           <Space height={uiDimen.lg} />
 
           <Space height={uiDimen.sm} />

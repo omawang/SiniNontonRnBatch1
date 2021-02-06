@@ -3,7 +3,7 @@ import React from 'react';
 
 import AppContainer from './src/navigations/AppContainer';
 
-const App = () => {
+const App = ({navigation}) => {
   return <AppContainer />;
 };
 

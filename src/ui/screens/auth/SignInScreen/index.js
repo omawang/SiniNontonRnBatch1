@@ -6,9 +6,6 @@ import {Button, Input, Space} from '../../../components';
 import {uiDimen, uiStyle} from '../../../constants';
 
 const SignInScreen = ({navigation}) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
   return (
     <SafeAreaView style={uiStyle.baseContainer}>
       <View style={styles.container}>
@@ -26,32 +23,23 @@ const SignInScreen = ({navigation}) => {
 
           <Text style={styles.label}>Email</Text>
           <Space height={uiDimen.sm} />
-          <Input value={email} onChange={(v) => setEmail(v)} />
+          <Input placeholder="Email" value={''} onChange={() => {}} />
           <Space height={uiDimen.lg} />
 
           <Text style={styles.label}>Password</Text>
           <Space height={uiDimen.sm} />
-          <Input value={password} onChange={(v) => setPassword(v)} />
+          <Input placeholder="Password" value={''} onChange={() => {}} />
           <Space height={uiDimen.lg} />
 
           <Space height={uiDimen.sm} />
-          <Button
-            title={'Sign In'}
-            onPress={() => {
-              navigation.navigate('Home');
-            }}
-          />
+          <Button title={'Sign In'} onPress={() => {}} />
           <Space height={uiDimen.md} />
 
           <Text style={styles.question}>Don't have an account</Text>
           <Space height={uiDimen.md} />
-          <Button
-            outlined
-            title={'Sign Up'}
-            onPress={() => {
-              navigation.navigate('SignUp');
-            }}
-          />
+          <Button outlined title={'Sign Up'} onPress={() => {
+            navigation.navigate('SignUp')
+          }} />
           <Space height={uiDimen.lg} />
         </KeyboardAwareScrollView>
       </View>
