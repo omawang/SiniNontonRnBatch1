@@ -23,7 +23,6 @@ const MoviesScreen = () => {
   const {user} = useContext(UserContext);
   const [popularData, setPopularData] = useState([]);
   const [topRatedData, setTopRatedData] = useState([]);
-  console.log('api key tmdb', TMDB_API_KEY);
 
   useEffect(() => {
     api

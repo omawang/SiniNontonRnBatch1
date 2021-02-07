@@ -2,7 +2,7 @@ import React from 'react';
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import IconM from 'react-native-vector-icons/MaterialIcons';
 import PropTypes from 'prop-types';
-import {TMD_IMG_URL} from '@env';
+import {TMDB_IMG_URL} from '@env';
 import {withNavigation} from '@react-navigation/compat';
 
 import {Space} from '../../../../../components';
@@ -12,11 +12,11 @@ const PopularItem = ({navigation, data}) => {
   return (
     <TouchableOpacity
       onPress={() => {
-        navigation.navigate('MovieDetail');
+        navigation.navigate('MovieDetail', {id: data.id});
       }}
       style={styles.imageContainer}>
       <Image
-        source={{uri: `${TMD_IMG_URL}${data.poster_path}`}}
+        source={{uri: `${TMDB_IMG_URL}${data.poster_path}`}}
         style={styles.image}
         resizeMode="cover"
       />

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Image,
   SafeAreaView,
@@ -9,15 +9,43 @@ import {
 } from 'react-native';
 import IconM from 'react-native-vector-icons/MaterialIcons';
 import IconMC from 'react-native-vector-icons/MaterialCommunityIcons';
+import {TMDB_IMG_URL, TMDB_API_KEY} from '@env';
 
 import {uiColor, uiDimen, uiStyle} from '../../../../constants';
 import Header from './components/Header';
+import VideosSection from './components/VideosSection';
 import {Space} from '../../../../components';
 
-const MovieDetailScreen = () => {
+import api from '../../../../../helpers';
+
+const MovieDetailScreen = ({route}) => {
+  const id = route.params.id;
+  const [detail, setDetail] = useState(null);
+  const [videos, setVideos] = useState([]);
+
+  useEffect(() => {
+    api
+      .get(`/movie/${id}?api_key=${TMDB_API_KEY}`)
+      .then((res) => {
+        setDetail(res.data);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+
+    api
+      .get(`/movie/${id}/videos?api_key=${TMDB_API_KEY}`)
+      .then((res) => {
+        setVideos(res.data.results);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  }, []);
+
   return (
     <SafeAreaView style={uiStyle.baseContainer}>
-      <Header />
+      <Header posterPath={detail?.poster_path} />
       <View
         style={{
           flex: 1,
@@ -34,7 +62,7 @@ const MovieDetailScreen = () => {
               marginTop: -45,
               borderRadius: uiDimen.sm,
             }}
-            source={require('../../../../../assets/dummy/popular.png')}
+            source={{uri: `${TMDB_IMG_URL}${detail?.poster_path}`}}
           />
           <View
             style={{
@@ -45,19 +73,23 @@ const MovieDetailScreen = () => {
             <Text
               style={{...uiStyle.textSemiBold, fontSize: 18}}
               numberOfLines={1}>
-              Train to bussan
+              {detail?.original_title}
             </Text>
             <Space height={uiDimen.sm} />
             <View style={styles.metaRating}>
               <IconM name="star" color={uiColor.star} size={20} />
               <Space width={6} />
-              <Text style={styles.metaRatingText}>7/10</Text>
+              <Text style={styles.metaRatingText}>{detail?.vote_average}</Text>
             </View>
             <Space height={uiDimen.sm} />
             <Text
               style={{...uiStyle.textRegular, fontSize: 14}}
               numberOfLines={2}>
-              Fantasy, Action, Drama, Comedy
+              {detail?.genres
+                .map((item, index) => {
+                  return item.name;
+                })
+                .join(', ')}
             </Text>
           </View>
         </View>
@@ -71,43 +103,12 @@ const MovieDetailScreen = () => {
             <Space height={uiDimen.sm} />
 
             <Text style={{...uiStyle.textRegular, fontSize: 14}}>
-              After being bitten by a genetically altered spider, nerdy high
-              school student Peter Parker is endowed with amazing powers to
-              become the Amazing superhero known as Spider-Man.
+              {detail?.overview}
             </Text>
           </View>
           <Space height={uiDimen.lg} />
 
-          <View style={{paddingHorizontal: uiDimen.lg}}>
-            <Text style={{...uiStyle.textSemiBold, fontSize: 16}}>Videos</Text>
-          </View>
-          <Space height={uiDimen.sm} />
-
-          <ScrollView horizontal style={{flexDirection: 'row'}}>
-            <Space width={uiDimen.md} />
-            <View style={{marginHorizontal: uiDimen.sm}}>
-              <View style={{width: 126, height: 82, backgroundColor: 'red'}} />
-              <Space height={uiDimen.sm / 2} />
-              <Text style={{...uiStyle.textRegular, fontSize: 14}}>
-                Official Trailer
-              </Text>
-            </View>
-            <View style={{marginHorizontal: uiDimen.sm}}>
-              <View style={{width: 126, height: 82, backgroundColor: 'red'}} />
-              <Space height={uiDimen.sm / 2} />
-              <Text style={{...uiStyle.textRegular, fontSize: 14}}>
-                Official Trailer
-              </Text>
-            </View>
-            <View style={{marginHorizontal: uiDimen.sm}}>
-              <View style={{width: 126, height: 82, backgroundColor: 'red'}} />
-              <Space height={uiDimen.sm / 2} />
-              <Text style={{...uiStyle.textRegular, fontSize: 14}}>
-                Official Trailer
-              </Text>
-            </View>
-            <Space width={uiDimen.md} />
-          </ScrollView>
+          <VideosSection videos={videos} />
           <Space height={uiDimen.lg} />
 
           <View style={{paddingHorizontal: uiDimen.lg}}>

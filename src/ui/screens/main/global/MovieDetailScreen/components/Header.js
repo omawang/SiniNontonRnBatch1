@@ -1,11 +1,14 @@
 import React from 'react';
-import {Image, View} from 'react-native';
+import {Image, TouchableOpacity, View} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import IconMC from 'react-native-vector-icons/MaterialCommunityIcons';
+import {withNavigation} from '@react-navigation/compat';
+import PropTypes from 'prop-types';
+import {TMDB_IMG_URL} from '@env';
 
 import {uiColor, uiDimen, uiStyle} from '../../../../../constants';
 
-const Header = () => {
+const Header = ({navigation, posterPath}) => {
   return (
     <View
       style={{
@@ -26,7 +29,10 @@ const Header = () => {
           justifyContent: 'space-between',
           zIndex: 100,
         }}>
-        <View
+        <TouchableOpacity
+          onPress={() => {
+            navigation.goBack();
+          }}
           style={{
             backgroundColor: uiColor.bg,
             width: 40,
@@ -37,7 +43,7 @@ const Header = () => {
             justifyContent: 'center',
           }}>
           <Icon name="arrow-back" size={24} color="white" />
-        </View>
+        </TouchableOpacity>
         <View
           style={{
             backgroundColor: uiColor.bg,
@@ -61,18 +67,24 @@ const Header = () => {
           zIndex: 50,
         }}
       />
-      <Image
-        source={require('../../../../../../assets/dummy/popular.png')}
-        style={{
-          width: '100%',
-          height: '100%',
-          backgroundColor: uiColor.accent1,
-          opacity: 0.8,
-        }}
-        resizeMode="cover"
-      />
+      {posterPath && (
+        <Image
+          source={{uri: `${TMDB_IMG_URL}${posterPath}`}}
+          style={{
+            width: '100%',
+            height: '100%',
+            backgroundColor: uiColor.accent1,
+            opacity: 0.8,
+          }}
+          resizeMode="cover"
+        />
+      )}
     </View>
   );
 };
 
-export default Header;
+Header.propTypes = {
+  posterPath: PropTypes.string,
+};
+
+export default withNavigation(Header);
