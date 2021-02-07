@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {
   Image,
   SafeAreaView,
@@ -10,15 +10,41 @@ import {
 } from 'react-native';
 import IconM from 'react-native-vector-icons/MaterialIcons';
 import auth from '@react-native-firebase/auth';
+import {TMDB_API_KEY} from '@env';
 
 import {Input, Space} from '../../../../components';
 import {uiColor, uiDimen, uiStyle} from '../../../../constants';
 import PopularSection from './components/PopularSection';
 import TopRatedSection from './components/TopRatedSection';
 import {UserContext} from '../../../../../commons/contexts/user';
+import api from '../../../../../helpers';
 
 const MoviesScreen = () => {
   const {user} = useContext(UserContext);
+  const [popularData, setPopularData] = useState([]);
+  const [topRatedData, setTopRatedData] = useState([]);
+  console.log('api key tmdb', TMDB_API_KEY);
+
+  useEffect(() => {
+    api
+      .get(`/movie/popular?api_key=${TMDB_API_KEY}`)
+      .then((res) => {
+        setPopularData(res.data.results);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+
+    api
+      .get(`/movie/top_rated?api_key=${TMDB_API_KEY}`)
+      .then((res) => {
+        setTopRatedData(res.data.results);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  }, []);
+
   return (
     <SafeAreaView style={uiStyle.baseContainer}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -48,10 +74,10 @@ const MoviesScreen = () => {
         <Text style={styles.headingText}>Movies</Text>
         <Space height={uiDimen.md} />
 
-        <PopularSection />
+        <PopularSection data={popularData} />
         <Space height={uiDimen.lg} />
 
-        <TopRatedSection />
+        <TopRatedSection data={topRatedData} />
         <Space height={uiDimen.md} />
       </ScrollView>
     </SafeAreaView>

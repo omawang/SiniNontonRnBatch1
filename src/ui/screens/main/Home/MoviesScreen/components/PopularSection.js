@@ -1,11 +1,18 @@
 import React from 'react';
-import {ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import PropTypes from 'prop-types';
 
 import {uiDimen, uiStyle} from '../../../../../constants';
 import {Space} from '../../../../../components';
 import PopularItem from './PopularItem';
 
-const PopularSection = () => {
+const PopularSection = ({data}) => {
   return (
     <>
       <View style={styles.headingContainer}>
@@ -18,10 +25,9 @@ const PopularSection = () => {
 
       <ScrollView horizontal>
         <Space width={uiDimen.md} />
-        <PopularItem />
-        <PopularItem />
-        <PopularItem />
-        <PopularItem />
+        {data.map((item, index) => {
+          return <PopularItem key={index} data={item} />;
+        })}
         <Space width={uiDimen.md} />
       </ScrollView>
     </>
@@ -38,4 +44,7 @@ const styles = StyleSheet.create({
   headingLinkText: {...uiStyle.textRegular, fontSize: 12},
 });
 
+PopularSection.propTypes = {
+  data: PropTypes.array.isRequired,
+};
 export default PopularSection;

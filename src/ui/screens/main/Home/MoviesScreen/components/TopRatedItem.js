@@ -1,26 +1,27 @@
 import React from 'react';
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import IconM from 'react-native-vector-icons/MaterialIcons';
-
+import PropTypes from 'prop-types';
+import {TMD_IMG_URL} from '@env';
 import { Space } from '../../../../../components';
 import { uiColor, uiDimen, uiStyle } from '../../../../../constants';
 
-const TopRatedItem = () => {
+const TopRatedItem = ({data}) => {
   return (
     <TouchableOpacity onPress={() => {}} style={styles.imageContainer}>
       <Image
-        source={require('../../../../../../assets/dummy/popular.png')}
+        source={{uri: `${TMD_IMG_URL}${data.poster_path}`}}
         style={styles.image}
         resizeMode="cover"
       />
       <View style={styles.metaContainer}>
         <Text numberOfLines={1} style={styles.metaTitle}>
-          Abigail asdkfhadsfsajfkldasj asdkjfhadls asdfha{' '}
+          {data.title}
         </Text>
         <Space height={uiDimen.sm / 2} />
         <View style={styles.metaRating}>
           <IconM name="star" color={uiColor.star} size={14} />
-          <Text style={styles.metaRatingText}>7/10</Text>
+          <Text style={styles.metaRatingText}>{data.vote_average}</Text>
         </View>
       </View>
     </TouchableOpacity>
@@ -47,5 +48,8 @@ const styles = StyleSheet.create({
   metaRating: {flexDirection: 'row', alignItems: 'center'},
   metaRatingText: {...uiStyle.textSemiBold, fontSize: 12},
 });
+TopRatedItem.propTypes ={
+  data : PropTypes.object.isRequired,
+}
 
 export default TopRatedItem;

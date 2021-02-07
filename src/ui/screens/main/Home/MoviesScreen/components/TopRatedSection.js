@@ -1,12 +1,19 @@
 import React from 'react';
-import {ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import PropTypes from 'prop-types';
 
 import {uiDimen, uiStyle} from '../../../../../constants';
 import {Space} from '../../../../../components';
 import PopularItem from './PopularItem';
 import TopRatedItem from './TopRatedItem';
 
-const TopRatedSection = () => {
+const TopRatedSection = ({data}) => {
   return (
     <>
       <View style={styles.headingContainer}>
@@ -19,10 +26,10 @@ const TopRatedSection = () => {
 
       <ScrollView horizontal>
         <Space width={uiDimen.md} />
-        <TopRatedItem />
-        <TopRatedItem />
-        <TopRatedItem />
-        <TopRatedItem />
+        {data.map((item, index) => {
+          return <TopRatedItem key={index} data={item} />;
+        })}
+
         <Space width={uiDimen.md} />
       </ScrollView>
     </>
@@ -38,5 +45,9 @@ const styles = StyleSheet.create({
   headingTitle: {...uiStyle.textSemiBold, fontSize: 16},
   headingLinkText: {...uiStyle.textRegular, fontSize: 12},
 });
+
+TopRatedSection.propTypes = {
+  data: PropTypes.array.isRequired,
+};
 
 export default TopRatedSection;
