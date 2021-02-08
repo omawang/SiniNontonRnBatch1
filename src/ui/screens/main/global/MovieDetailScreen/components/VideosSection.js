@@ -1,10 +1,10 @@
 import React from 'react';
-import {Image, ScrollView, Text, View} from 'react-native';
+import {Image, ScrollView, Text, TouchableOpacity, View} from 'react-native';
 
 import {Space} from '../../../../../components';
 import {uiColor, uiDimen, uiStyle} from '../../../../../constants';
 
-const VideosSection = ({videos}) => {
+const VideosSection = ({videos, playVideo}) => {
   return (
     <>
       <View style={{paddingHorizontal: uiDimen.lg}}>
@@ -16,8 +16,9 @@ const VideosSection = ({videos}) => {
         <Space width={uiDimen.md} />
         {videos?.map((item, index) => {
           return (
-            <View
+            <TouchableOpacity
               key={index}
+              onPress={() => playVideo(item.key)}
               style={{marginHorizontal: uiDimen.sm, width: 126}}>
               <Image
                 source={{
@@ -36,7 +37,7 @@ const VideosSection = ({videos}) => {
                 numberOfLines={1}>
                 {item.name}
               </Text>
-            </View>
+            </TouchableOpacity>
           );
         })}
 

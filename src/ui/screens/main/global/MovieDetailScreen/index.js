@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {
+  Dimensions,
   Image,
   SafeAreaView,
   ScrollView,
@@ -9,19 +10,23 @@ import {
 } from 'react-native';
 import IconM from 'react-native-vector-icons/MaterialIcons';
 import IconMC from 'react-native-vector-icons/MaterialCommunityIcons';
-import {TMDB_IMG_URL, TMDB_API_KEY} from '@env';
+import {GOOGLE_YOUTUBE_API_KEY, TMDB_IMG_URL, TMDB_API_KEY} from '@env';
+import {YouTubeStandaloneAndroid} from 'react-native-youtube';
 
 import {uiColor, uiDimen, uiStyle} from '../../../../constants';
 import Header from './components/Header';
 import VideosSection from './components/VideosSection';
+import CastSection from './components/CastSection';
 import {Space} from '../../../../components';
 
 import api from '../../../../../helpers';
 
+const {width} = Dimensions.get('window')
 const MovieDetailScreen = ({route}) => {
   const id = route.params.id;
   const [detail, setDetail] = useState(null);
   const [videos, setVideos] = useState([]);
+  const [credits, setCredits] = useState([]);
 
   useEffect(() => {
     api
@@ -41,7 +46,27 @@ const MovieDetailScreen = ({route}) => {
       .catch((err) => {
         console.log(err.message);
       });
+
+    api
+      .get(`/movie/${id}/credits?api_key=${TMDB_API_KEY}`)
+      .then((res) => {
+        setCredits(res.data);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
   }, []);
+
+  const playVideo = (videoId) => {
+    YouTubeStandaloneAndroid.playVideo({
+      apiKey: GOOGLE_YOUTUBE_API_KEY, // Your YouTube Developer API Key
+      videoId: videoId, // YouTube video ID
+      autoplay: true, // Autoplay the video
+      startTime: 0, // Starting point of video (in seconds)
+    })
+      .then(() => console.log('Standalone Player Exited'))
+      .catch((errorMessage) => console.error(errorMessage));
+  };
 
   return (
     <SafeAreaView style={uiStyle.baseContainer}>
@@ -73,7 +98,7 @@ const MovieDetailScreen = ({route}) => {
             <Text
               style={{...uiStyle.textSemiBold, fontSize: 18}}
               numberOfLines={1}>
-              {detail?.original_title}
+              {detail?.title}
             </Text>
             <Space height={uiDimen.sm} />
             <View style={styles.metaRating}>
@@ -108,46 +133,10 @@ const MovieDetailScreen = ({route}) => {
           </View>
           <Space height={uiDimen.lg} />
 
-          <VideosSection videos={videos} />
+          <VideosSection videos={videos} playVideo={playVideo} />
           <Space height={uiDimen.lg} />
 
-          <View style={{paddingHorizontal: uiDimen.lg}}>
-            <Text style={{...uiStyle.textSemiBold, fontSize: 16}}>Cast</Text>
-            <Space height={uiDimen.sm} />
-
-            <View style={{flexDirection: 'row', marginBottom: uiDimen.md}}>
-              <Image
-                source={require('../../../../../assets/dummy/actor.png')}
-                style={{borderRadius: uiDimen.sm}}
-              />
-              <Space width={uiDimen.md} />
-
-              <View style={{justifyContent: 'center'}}>
-                <Text style={{...uiStyle.textSemiBold, fontSize: 14}}>
-                  Brad Pitt
-                </Text>
-                <Text style={{...uiStyle.textRegular, fontSize: 16}}>
-                  Narrator (Voice)
-                </Text>
-              </View>
-            </View>
-
-            <View style={{flexDirection: 'row', marginBottom: uiDimen.md}}>
-              <Image
-                source={require('../../../../../assets/dummy/actor.png')}
-                style={{borderRadius: uiDimen.sm}}
-              />
-              <Space width={uiDimen.md} />
-              <View style={{justifyContent: 'center'}}>
-                <Text style={{...uiStyle.textSemiBold, fontSize: 14}}>
-                  Brad Pitt
-                </Text>
-                <Text style={{...uiStyle.textRegular, fontSize: 16}}>
-                  Narrator (Voice)
-                </Text>
-              </View>
-            </View>
-          </View>
+          <CastSection data={credits.cast} />
         </ScrollView>
       </View>
     </SafeAreaView>
